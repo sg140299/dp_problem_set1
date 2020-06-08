@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+using namespace std;
+int dp[3005][3005];
+string get_s(string &s,string &t,int len){
+    string ans;
+    int i=0;
+    int j=0;
+    while(len>0){
+            if(s[i]==t[j]){
+                ans.push_back(s[i]);
+                i+=1;
+                j+=1;
+                len-=1;
+            }
+            else{
+                if(dp[i+1][j]>dp[i][j+1]){
+                    i+=1;
+                }
+                else{j+=1;}
+            }
+        }
+        return ans;
+    }
+
+int len_lcs(string &s,string &t,int i,int j){
+  if(s.length()<=i || j>=t.length()){
+      return 0;
+  }
+  if(dp[i][j]!=-1){
+      return dp[i][j];
+  }
+  if(s[i]==t[j]){
+      return dp[i][j]=1+len_lcs(s,t,i+1,j+1);
+  }
+  else{
+      return dp[i][j]=max(len_lcs(s,t,i+1,j),len_lcs(s,t,i,j+1));
+  }
+}
+int main(){
+    string s,t;
+    cin>>s>>t;
+    memset(dp,-1,sizeof(dp));
+    int x=len_lcs(s,t,0,0);
+    //cout<<dp[3][4]<<endl;
+    //cout<<x<<endl;
+    cout<<get_s(s,t,x);
+
+    return 0;
+}
