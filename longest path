@@ -1,0 +1,37 @@
+#include<bits/stdc++.h>
+using namespace std;
+int dp[100005];
+int ind[100005]={0};
+
+vector<int> v[100005];
+int solve(int i){
+
+    if(dp[i]!=-1){
+        return dp[i];
+    }
+    bool leaf=1;
+    int maxchild=0;
+    for(auto child: v[i]){
+        leaf=0;
+        maxchild=max(maxchild,solve(child));
+    }
+    return dp[i]=leaf ? 0 : 1+maxchild; 
+}
+int main(){
+    int n,m;
+    cin>>n>>m;
+    memset(dp,-1,sizeof(dp));
+    
+    int x,y;
+    for(int i=1;i<=m;i++){
+        cin>>x>>y;
+        v[x].push_back(y);
+        ind[y]+=1;
+    }
+    int ans=0;
+    for(int i=1;i<=n;i++){
+        ans=max(ans,solve(i));
+    }
+    cout<<ans<<endl;
+    return 0;
+}
