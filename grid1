@@ -1,0 +1,42 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+#define ll long long
+ll ep=1000000007;
+ll n,m;
+char cost[1005][1005];
+ll dp[1005][1005];
+int main(){
+    cin>>n>>m;
+    //memset(cost,0,sizeof(cost));
+    for(ll i=0;i<n;i++){
+        for(ll j=0;j<m;j++){
+            cin>>cost[i][j];
+        }
+    }
+    memset(dp,0,sizeof(dp));
+    for(ll i=1;i<m;i++){
+        if(cost[0][i]=='#'){
+            break;
+        }
+        dp[0][i]=1;
+    }
+    for(ll j=1;j<n;j++){
+        if(cost[j][0]=='#'){
+            break;
+        }
+        dp[j][0]=1;
+    }
+    for(ll i=0;i<n;i++){
+        for(ll j=0;j<m;j++){
+            if(i!=0 && j!=0){
+                if(cost[i][j]=='#'){continue;}
+                dp[i][j]=(dp[i][j-1]+dp[i-1][j])%ep;
+            }
+        }
+    }
+    
+    cout<<dp[n-1][m-1]<<endl;
+
+    return 0;
+}
